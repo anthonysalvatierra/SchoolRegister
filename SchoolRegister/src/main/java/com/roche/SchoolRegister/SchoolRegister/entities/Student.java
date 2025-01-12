@@ -33,8 +33,8 @@ public class Student {
     private Boolean status;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id_level", referencedColumnName = "id", insertable = false, updatable = false)
-    private Level id_level;
+    @JoinColumn(name = "level", referencedColumnName = "id", insertable = false, updatable = false)
+    private Level level;
 
     public Long getId() {
         return id;
@@ -80,12 +80,12 @@ public class Student {
         this.status = status;
     }
 
-    public Level getId_level() {
-        return id_level;
+    public Level getLevel() {
+        return level;
     }
 
-    public void setId_level(Level id_level) {
-        this.id_level = id_level;
+    public void setLevel(Level level) {
+        this.level = level;
     }
 
     @Override
@@ -93,12 +93,12 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return Objects.equals(id, student.id) && Objects.equals(name, student.name) && Objects.equals(dna, student.dna) && Objects.equals(phoneNumber, student.phoneNumber) && Objects.equals(email, student.email) && Objects.equals(status, student.status) && Objects.equals(id_level, student.id_level);
+        return Objects.equals(id, student.id) && Objects.equals(name, student.name) && Objects.equals(dna, student.dna) && Objects.equals(phoneNumber, student.phoneNumber) && Objects.equals(email, student.email) && Objects.equals(status, student.status) && Objects.equals(level, student.level);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, dna, phoneNumber, email, status, id_level);
+        return Objects.hash(id, name, dna, phoneNumber, email, status, level);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class Student {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
                 ", status=" + status +
-                ", id_level=" + id_level +
+                ", level=" + level +
                 '}';
     }
 }
