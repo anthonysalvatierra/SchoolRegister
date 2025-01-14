@@ -11,4 +11,6 @@ public interface IUserService {
 
     Optional<User> findByUsername(String username);
 
+    String findRoleByUsername(String username);
+
 }

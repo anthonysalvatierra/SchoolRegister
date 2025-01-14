@@ -1,7 +1,10 @@
 package com.roche.SchoolRegister.SchoolRegister.service;
 
 import com.roche.SchoolRegister.SchoolRegister.entities.User;
+import com.roche.SchoolRegister.SchoolRegister.errors.ErrorController;
 import com.roche.SchoolRegister.SchoolRegister.service.Iservice.IUserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +16,8 @@ public class UserSecurityService implements UserDetailsService {
 
     @Autowired
     private IUserService userService;
+
+    private final Logger log = LogManager.getLogger(this);
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

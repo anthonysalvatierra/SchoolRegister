@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <style>
+            .bg-gray{
+                background-color: #E0E0E0;
+            }
+        </style>
+    </head>
+    <body class="bg-gray" style="min-height: 85vh">
+
+        <header th:insert="~{layouts/layouts :: header}"></header>
+
+        <ul class="nav nav-pills d-flex justify-content-around bg-light w-100 p-3" style="margin-top:75px; max-height:100vh">
+            <li class="nav-item">
+                <a class="nav-link active fs-3" data-bs-toggle="pill" aria-current="page" href="#home">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link fs-3" data-bs-toggle="pill" href="#students">Students</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link fs-3" data-bs-toggle="pill" href="#teachers">Teachers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link fs-3" data-bs-toggle="pill" href="#courses">Courses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link fs-3" data-bs-toggle="pill" href="#careers">Careers</a>
+            </li>
+        </ul>
+
+        <div class="tab-content d-flex align-items-center pt-1" style="min-height:65vh;">
+            <div class="tab-pane container-fluid active" id="home">
+                    <div class="row">
+                        <div class="col-4">
+                            <ul class="nav flex-column nav-tabs card rounded shadow">
+                                <li class="nav-item p-1">
+                                    <a class="nav-link fs-4 text-dark active fs-3 ms-2" data-bs-toggle="tab" href="#index">Index</a>
+                                </li>
+                                <li class="nav-item p-1">
+                                    <a class="nav-link fs-4 text-dark ms-2" data-bs-toggle="tab" href="#add_students">Add Student</a>
+                                </li>
+                                <li class="nav-item p-1">
+                                    <a class="nav-link fs-4 text-dark ms-2" data-bs-toggle="tab" href="#add_teachers">Add Teacher</a>
+                                </li>
+                                <li class="nav-item p-1">
+                                    <a class="nav-link fs-4 text-dark ms-2" data-bs-toggle="tab" href="#add_courses">Add Course</a>
+                                </li>
+                                <li class="nav-item p-1">
+                                    <a class="nav-link fs-4 text-dark ms-2" data-bs-toggle="tab" href="#add_admins">Add Admin</a>
+                                </li>
+                                <li class="nav-item p-1">
+                                    <a class="nav-link fs-4 text-dark ms-2" data-bs-toggle="tab" href="#add_careers">Add Careers</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-8">
+                            <div class="tab-pane container fade" id="index">index</div>
+                            <div class="tab-pane container fade" id="add_students">home 2</div>
+                            <div class="tab-pane container fade" id="add_teachers">menu1</div>
+                            <div class="tab-pane container fade" id="add_courses">menu2</div>
+                            <div class="tab-pane container fade" id="add_admins">menu2</div>
+                            <div class="tab-pane container fade" id="add_careers">menu2</div>
+                        </div>
+                    </div>
+            </div>
+            <div class="tab-pane container fade" id="students"></div>
+            <div class="tab-pane container fade" id="teachers"></div>
+            <div class="tab-pane container fade" id="courses"></div>
+            <div class="tab-pane container fade" id="careers"></div>
+        </div>
+
+
+
+        <footer th:replace="~{layouts/layouts :: footer}"></footer>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    </body>
+</html>

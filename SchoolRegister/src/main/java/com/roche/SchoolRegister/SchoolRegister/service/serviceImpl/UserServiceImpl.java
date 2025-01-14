@@ -24,4 +24,9 @@ public class UserServiceImpl implements IUserService {
     public Optional<User> findByUsername(String username) {
         return this.userDao.findByUsername(username);
     }
+
+    @Override
+    public String findRoleByUsername(String username) {
+        return this.userDao.findRoleByUsername(username);
+    }
 }

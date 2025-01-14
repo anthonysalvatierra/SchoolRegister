@@ -1,28 +1,50 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <title th:text="#{title_index}" ></title>
         <link rel="shortcut icon" href="" type="image/x-icon">
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <style>
+            .bg-gray{
+                background-color: #E0E0E0;
+            }
+        </style>
     </head>
-    <body>
+    <body class="d-flex justify-content-center align-items-center bg-gray" style="min-height: 100vh">
 
-        <h1>Login</h1>
-        <form th:action="@{/login}" method="post">
-            <div>
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
+        <header th:insert="~{layouts/layouts :: header}"></header>
+
+        <div class="card shadow rounded" style="width: 24rem;">
+            <div class="card-header">
+                <h1 class="text-center" th:text="#{title_login_index}">Login</h1>
             </div>
-            <div>
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
+            <div class="card-body p-2">
+                <form th:action="@{/login}" method="post">
+                    <div class="p-1">
+                        <label for="username" class="col-form-label" th:text="#{username_index}">Username</label>
+                        <input autocomplete="off" class="form-control" type="text" id="username" name="username" required>
+                    </div>
+                    <div class="p-1">
+                        <label for="password" class="col-form-label" th:text="#{password_index}">Password</label>
+                        <input type="password" id="password" name="password" required class="form-control">
+                    </div>
+                    <div class="pb-1 pt-2 d-flex justify-content-around">
+                        <button type="submit" class="btn btn-primary" th:text="#{button_index}">Login</button>
+                        <div class="btn-group">
+                            <button th:text="#{languages_index}" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                            <ul class="dropdown-menu">
+                                <li><a th:text="#{languages_change_index_english}" class="dropdown-item" th:href="@{/(lang=en)}"></a></li>
+                                <li><a th:text="#{languages_change_index_spanish}" class="dropdown-item" th:href="@{/(lang=es)}"></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div>
-                <button type="submit">Login</button>
-            </div>
-        </form>
+        </div>
+
+        <footer th:replace="~{layouts/layouts :: footer}"></footer>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     </body>

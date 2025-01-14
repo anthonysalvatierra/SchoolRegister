@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -28,7 +29,11 @@ public class Course {
 
     @JoinColumn(name = "assignment", referencedColumnName = "id", insertable = false, updatable = false)
     @OneToMany
-    private Assignment assignment;
+    private List<Assignment> assignments;
+
+    @JoinColumn(name = "career", referencedColumnName = "id", updatable = false)
+    @ManyToMany
+    private List<Career> careers;
 
     public Long getId() {
         return id;
@@ -62,6 +67,14 @@ public class Course {
         this.level = level;
     }
 
+    public List<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,6 +95,7 @@ public class Course {
                 ", name='" + name + '\'' +
                 ", teacher=" + teacher +
                 ", level=" + level +
+                ", assignments=" + assignments +
                 '}';
     }
 }

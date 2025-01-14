@@ -31,4 +31,11 @@ public class UserDaoImpl implements IUserDao {
 
         return Optional.ofNullable(user);
     }
+
+    @Override
+    public String findRoleByUsername(String username) {
+        return (String) this.em.createQuery(findRoleByUsername)
+                .setParameter("username", username)
+                .getSingleResult();
+    }
 }

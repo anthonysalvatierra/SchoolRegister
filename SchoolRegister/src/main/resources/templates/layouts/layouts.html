@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Layouts</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    </head>
+    <body style="min-height: 100vh">
+
+        <header th:fragment="header">
+            <div class="position-fixed top-0 start-0 w-100 text-white p-1" style="background-color: #15297c">
+                <nav class="navbar navbar-expand-sm bg-transparent navbar-dark px-5">
+                    <div class="container-fluid">
+                        <ul class="nav navbar-nav ">
+                            <li class="nav-item fw-light">
+                                <span th:text="#{info_header_phone}"></span>:
+                                <span th:text="#{info_header_number}"></span>   |
+                                <span th:text="#{info_header_mail}"></span>:
+                                <span th:text="#{info_header_main_text}"></span>
+                            </li>
+                        </ul>
+                        <div>
+                            <img alt="ANONYMOUS" class="rounded-circle me-3"
+                                 src="//clases.cuam.edu.ve/moodle4/pluginfile.php/1/theme_academi/logo/1708533789/35%20aniversario.jpg"
+                                style="width: 50px; height:50px;"/>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+
+
+
+
+        <footer th:fragment="footer">
+            <div class="position-fixed bottom-0 start-0 text-white p-4 w-100 mt-auto" style="background-color: #15297c">
+                <div class="container">
+                    <div class="row">
+                        <div class="col"></div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </body>
+</html>

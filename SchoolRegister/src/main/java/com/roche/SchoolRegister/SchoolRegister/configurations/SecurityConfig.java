@@ -3,12 +3,14 @@ package com.roche.SchoolRegister.SchoolRegister.configurations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
@@ -24,20 +26,13 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/")
                         .permitAll())
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/")
-                        .permitAll())
-                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/index/dashboard")
-                        .hasAnyRole("ADMIN", "TEACHER", "STUDENT"))
-                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/admin/**")
-                        .hasRole("ADMIN"))
-                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/teacher/**")
-                        .hasAnyRole("ADMIN", "TEACHER"))
-                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
-                        .requestMatchers("/student/**")
-                        .hasAnyRole("ADMIN", "STUDENT"));
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/lang").permitAll()
+                        .requestMatchers("/index/dashboard").hasAnyRole("ADMIN", "TEACHER", "STUDENT")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/teacher/**").hasAnyRole("ADMIN", "TEACHER")
+                        .requestMatchers("/assignment/**").hasRole("TEACHER")
+                        .requestMatchers("/student/**").hasAnyRole("ADMIN", "STUDENT"));
 
         return http.build();
     }
