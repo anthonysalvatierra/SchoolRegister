@@ -4,37 +4,36 @@ import com.roche.SchoolRegister.SchoolRegister.dao.Idao.IUserDao;
 import com.roche.SchoolRegister.SchoolRegister.entities.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class UserDaoImpl implements IUserDao {
+public class UserDaoImpl {
 
     @PersistenceContext
     private EntityManager em;
 
-    @Override
-    public List<?> findAll() {
+    @Autowired
+    private IUserDao userDao;
 
-        return this.em.createQuery(findAll).getResultList();
-
+    public List<User> findAll(){
+        return (List<User>) this.userDao.findAll();
     }
 
-    @Override
     public Optional<User> findByUsername(String username) {
 
-        User user = (User) this.em.createQuery(findByUsername)
+        User user = (User) this.em.createQuery(IUserDao.findByUsername)
                 .setParameter("username", username)
                 .getSingleResult();
 
         return Optional.ofNullable(user);
     }
 
-    @Override
     public String findRoleByUsername(String username) {
-        return (String) this.em.createQuery(findRoleByUsername)
+        return (String) this.em.createQuery(IUserDao.findRoleByUsername)
                 .setParameter("username", username)
                 .getSingleResult();
     }

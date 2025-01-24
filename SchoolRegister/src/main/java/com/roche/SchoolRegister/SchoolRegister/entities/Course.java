@@ -1,6 +1,7 @@
 package com.roche.SchoolRegister.SchoolRegister.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
@@ -15,25 +16,17 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "It is not allow emptyness")
-    @Size(min = 5)
+    @NotBlank
+    @Size(min = 4, max = 20)
     private String name;
 
-    @JoinColumn(name = "teacher", referencedColumnName = "id", insertable = false)
+    @JoinColumn(name = "teacher", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Teacher teacher;
 
-    @JoinColumn(name = "level", referencedColumnName = "id", insertable = false)
+    @JoinColumn(name = "level", referencedColumnName = "id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Level level;
-
-    @JoinColumn(name = "assignment", referencedColumnName = "id", insertable = false, updatable = false)
-    @OneToMany
-    private List<Assignment> assignments;
-
-    @JoinColumn(name = "career", referencedColumnName = "id", updatable = false)
-    @ManyToMany
-    private List<Career> careers;
 
     public Long getId() {
         return id;
@@ -67,14 +60,6 @@ public class Course {
         this.level = level;
     }
 
-    public List<Assignment> getAssignments() {
-        return assignments;
-    }
-
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,7 +80,6 @@ public class Course {
                 ", name='" + name + '\'' +
                 ", teacher=" + teacher +
                 ", level=" + level +
-                ", assignments=" + assignments +
                 '}';
     }
 }

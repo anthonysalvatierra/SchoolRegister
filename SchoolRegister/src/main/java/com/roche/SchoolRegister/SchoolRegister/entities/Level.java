@@ -13,7 +13,7 @@ public class Level {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "It must have a number")
+    @NotBlank
     private Integer number;
 
     public Long getId() {

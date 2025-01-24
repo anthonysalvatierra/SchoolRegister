@@ -9,6 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -28,7 +32,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> authorizationManagerRequestMatcherRegistry
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/lang").permitAll()
-                        .requestMatchers("/index/dashboard").hasAnyRole("ADMIN", "TEACHER", "STUDENT")
+                        .requestMatchers("/index/dashboard/**").hasAnyRole("ADMIN", "TEACHER", "STUDENT")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/teacher/**").hasAnyRole("ADMIN", "TEACHER")
                         .requestMatchers("/assignment/**").hasRole("TEACHER")
@@ -41,4 +45,5 @@ public class SecurityConfig {
     public PasswordEncoder encoder(){
         return new BCryptPasswordEncoder();
     }
+
 }

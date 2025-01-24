@@ -1,0 +1,29 @@
+package com.roche.SchoolRegister.SchoolRegister.constants;
+
+public enum MessageConstant {
+
+    MESSAGE,
+    GOTO,
+    STUDENT,
+    TEACHER,
+    COURSE,
+    CAREER,
+    ADMIN,
+    LEVEL,
+    ENTITIES,
+    STUDENT_SUCCESS,
+    TEACHER_SUCCESS,
+    COURSE_SUCCESS,
+    ADMIN_SUCCESS,
+    CAREER_SUCCESS,
+    ERROR_INSERTION_STUDENT,
+    ERROR_INSERTION_TEACHER,
+    ERROR_INSERTION_COURSE,
+    ERROR_INSERTION_ADMIN,
+    ERROR_INSERTION_CAREER,
+    ERROR_PERSIST_ENTITY,
+    ENTITY_INSERTED,
+
+
+}
+

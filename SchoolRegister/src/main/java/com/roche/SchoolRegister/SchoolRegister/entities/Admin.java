@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "admin")
-public class Admin {
+public class Admin extends Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,18 +17,17 @@ public class Admin {
     private String name;
 
     @NotBlank
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String dna;
 
-    @NotNull
+    @NotBlank
     private String address;
 
-    @Max(20)
-    @Min(10)
     private String phone;
 
-    @Email(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+@.[a-zA-Z]{2,}$")
+    @Email
     @Column(unique = true)
+    @NotBlank
     private String email;
 
     public Long getId() {
@@ -39,7 +38,7 @@ public class Admin {
         this.id = id;
     }
 
-    public @NotBlank String getName() {
+    public String getName() {
         return name;
     }
 

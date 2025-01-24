@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <div th:fragment="form_career">
+            <div class="card p-1 rounded shadow">
+                <h1 class="fs-5 text-dark text-center mb-2" th:text="#{admin_nav_vertical_careers}"></h1>
+                <small class="text-success fs-6 text-center" th:text="#{success_register}" th:if="${career_success != null}"></small>
+                <small class="text-danger fs-6 text-center" th:text="#{error_insertion}" th:if="${error_insertion_career != null}"></small>
+                <hr>
+                <form th:action="@{/admin/saveCareer}" method="post" th:object="${career}" class="row g-3">
+                    <div class="col-md-12">
+                        <label for="name_career" class="form-label" th:text="#{form_name}"></label>
+                        <input type="text" class="form-control" id="name_career" th:field="*{name}">
+                        <small class="fs-6 text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" ></small>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="duration" class="form-label" th:text="#{form_duration}"></label>
+                        <input type="number" min="3" max="6" class="form-control" id="duration" th:field="*{duration}">
+                        <small class="fs-6 text-danger" th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}" ></small>
+                    </div>
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-primary w-100" th:text="#{form_add}"></button>
+                    </div>
+                    <div class="col-3">
+                        <button type="reset" class="btn btn-danger w-100" th:text="#{form_reset}"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

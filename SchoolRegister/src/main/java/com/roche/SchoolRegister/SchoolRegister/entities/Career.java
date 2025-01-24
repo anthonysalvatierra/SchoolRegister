@@ -1,11 +1,8 @@
 package com.roche.SchoolRegister.SchoolRegister.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,26 +11,23 @@ public class Career {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ind;
+    private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(unique = true)
+    @Size(min = 5, max = 35)
     private String name;
 
     @Max(6)
     @Min(3)
     private Integer duration;
 
-    @ManyToMany
-    @JoinColumn(name = "course", referencedColumnName = "id", updatable = false)
-    private List<Course> courses;
-
-    public Long getInd() {
-        return ind;
+    public Long getId() {
+        return id;
     }
 
-    public void setInd(Long ind) {
-        this.ind = ind;
+    public void setId(Long ind) {
+        this.id = ind;
     }
 
     public String getName() {
@@ -52,34 +46,25 @@ public class Career {
         this.duration = duration;
     }
 
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Career career = (Career) o;
-        return Objects.equals(ind, career.ind) && Objects.equals(name, career.name) && Objects.equals(duration, career.duration) && Objects.equals(courses, career.courses);
+        return Objects.equals(id, career.id) && Objects.equals(name, career.name) && Objects.equals(duration, career.duration);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ind, name, duration, courses);
+        return Objects.hash(id, name, duration);
     }
 
     @Override
     public String toString() {
         return "Career{" +
-                "ind=" + ind +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", duration=" + duration +
-                ", courses=" + courses +
                 '}';
     }
 }

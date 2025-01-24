@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <div th:fragment="form_course">
+            <div class="card p-1 rounded shadow">
+                <h1 class="fs-5 text-dark text-center mb-2" th:text="#{admin_nav_vertical_courses}"></h1>
+                <small class="text-success fs-6 text-center" th:text="#{success_register}" th:if="${course_success != null}"></small>
+                <small class="text-danger fs-6 text-center" th:text="#{error_insertion}" th:if="${error_insertion_course != null}"></small>
+                <hr>
+                <form th:action="@{/admin/saveCourse}" method="post" th:object="${course}" class="row g-3">
+                    <div class="col-md-12">
+                        <label for="name_course" class="form-label" th:text="#{form_name}"></label>
+                        <input type="text" class="form-control" id="name_course" th:field="*{name}">
+                        <small class="fs-6 text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" ></small>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="teacher_course" class="form-label" th:text="#{form_teacher}"></label>
+                        <select id="teacher_course" class="form-select" aria-label="Teacher" th:field="*{teacher}">
+                            <option th:each="teacher: ${entities.get('teacher')}" th:value="${teacher.id}"
+                                    selected th:text="${teacher.name}"></option>
+                        </select>
+                        <small class="fs-6 text-danger" th:if="${#fields.hasErrors('teacher')}" th:errors="*{teacher}" ></small>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="level_course" class="form-label" th:text="#{form_level}"></label>
+                        <select id="level_course" class="form-select" aria-label="Level" th:field="*{level}">
+                            <option th:each="level: ${entities.get('level')}" th:value="${level.id}"
+                                    selected th:text="${level.number}"></option>
+                        </select>
+                        <small class="fs-6 text-danger" th:if="${#fields.hasErrors('level')}" th:errors="*{level}" ></small>
+                    </div>
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-primary w-100" th:text="#{form_add}"></button>
+                    </div>
+                    <div class="col-3">
+                        <button type="reset" class="btn btn-danger w-100" th:text="#{form_reset}"></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

@@ -3,38 +3,42 @@ package com.roche.SchoolRegister.SchoolRegister.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
 
 @Entity
 @Table(name="student")
-public class Student {
+public class Student extends Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "It must have a name")
-    @Size(min = 3, message = "It has to be a correct name")
+    @NotBlank
     private String name;
 
     @Column(unique = true, nullable = false)
+    @NotBlank
     private String dna;
 
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @NotBlank(message = "It must have a content")
-    @Email(message = "The value is required", regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+@.[a-zA-Z]{2,}$")
+    @NotBlank
+    @Email
+    @Column(unique = true)
     private String email;
 
-    private Boolean status;
+    @NotBlank
+    private String status;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "level", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "level", referencedColumnName = "id")
     private Level level;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "career", referencedColumnName = "id")
+    private Career career;
 
     public Long getId() {
         return id;
@@ -72,11 +76,11 @@ public class Student {
         this.email = email;
     }
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -88,17 +92,25 @@ public class Student {
         this.level = level;
     }
 
+    public Career getCareer() {
+        return career;
+    }
+
+    public void setCareer(Career career) {
+        this.career = career;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return Objects.equals(id, student.id) && Objects.equals(name, student.name) && Objects.equals(dna, student.dna) && Objects.equals(phoneNumber, student.phoneNumber) && Objects.equals(email, student.email) && Objects.equals(status, student.status) && Objects.equals(level, student.level);
+        return Objects.equals(id, student.id) && Objects.equals(name, student.name) && Objects.equals(dna, student.dna) && Objects.equals(phoneNumber, student.phoneNumber) && Objects.equals(email, student.email) && Objects.equals(status, student.status) && Objects.equals(level, student.level) && Objects.equals(career, student.career);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, dna, phoneNumber, email, status, level);
+        return Objects.hash(id, name, dna, phoneNumber, email, status, level, career);
     }
 
     @Override
@@ -111,6 +123,7 @@ public class Student {
                 ", email='" + email + '\'' +
                 ", status=" + status +
                 ", level=" + level +
+                ", career=" + career +
                 '}';
     }
 }

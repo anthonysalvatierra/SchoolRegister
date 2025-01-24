@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <div th:fragment="content_admin_home">
+            <div class="row">
+                <div class="col-4 d-flex justify-content-center align-items-center">
+                    <ul class="nav flex-column nav-pills card rounded shadow w-100 p-4">
+                        <li class="nav-item p-1">
+                            <a class="nav-link fs-4 text-dark ms-2" id="toAddStudents" data-bs-toggle="pill" aria-current="page"
+                               href="#add_students" th:text="#{admin_nav_vertical_students}"></a>
+                        </li>
+                        <li class="nav-item p-1">
+                            <a class="nav-link fs-4 text-dark ms-2" id="toAddTeachers" data-bs-toggle="pill" href="#add_teachers"
+                               th:text="#{admin_nav_vertical_teachers}"></a>
+                        </li>
+                        <li class="nav-item p-1">
+                            <a class="nav-link fs-4 text-dark ms-2" id="toAddCourses" data-bs-toggle="pill" href="#add_courses"
+                               th:text="#{admin_nav_vertical_courses}"></a>
+                        </li>
+                        <li class="nav-item p-1">
+                            <a class="nav-link fs-4 text-dark ms-2" id="toAddAdmins" data-bs-toggle="pill" href="#add_admins"
+                               th:text="#{admin_nav_vertical_admins}"></a>
+                        </li>
+                        <li class="nav-item p-1">
+                            <a class="nav-link fs-4 text-dark ms-2" id="toAddCareers" data-bs-toggle="pill" href="#add_careers"
+                               th:text="#{admin_nav_vertical_careers}"></a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!---------------------------------------------- Content Nav Bar Vertical, Add Students ---------------------------------------------------------------->
+                <div class="col-8 d-flex justify-content-center align-items-center">
+                    <div class="tab-content">
+                        <div class="tab-pane container active" id="add_students">
+                            <div th:replace="~{layouts/forms/formStudent :: form_student}"></div>
+                        </div>
+
+                        <!------------------------------------------------ Add Teachers ------------------------------------------------------------->
+                        <div class="tab-pane container fade" id="add_teachers">
+                            <div th:replace="~{layouts/forms/formTeacher :: form_teacher}"></div>
+                        </div>
+
+                        <!------------------------------------------------ Add Courses ------------------------------------------------------------->
+                        <div class="tab-pane container fade" id="add_courses">
+                            <div th:replace="~{layouts/forms/formCourse :: form_course}"></div>
+                        </div>
+
+                        <!------------------------------------------------ Add Admins ------------------------------------------------------------->
+                        <div class="tab-pane container fade" id="add_admins">
+                            <div th:replace="~{layouts/forms/formAdmin :: form_admin}"></div>
+                        </div>
+
+                        <!------------------------------------------------ Add Careers ------------------------------------------------------------->
+                        <div class="tab-pane container fade" id="add_careers">
+                            <div th:replace="~{layouts/forms/formCareer :: form_career}"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

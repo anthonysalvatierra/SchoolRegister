@@ -1,37 +1,34 @@
 package com.roche.SchoolRegister.SchoolRegister.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 import java.util.Objects;
 
 @Entity
 @Table(name="teacher")
-public class Teacher {
+public class Teacher extends Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "It can't be without content")
-    @Size(min = 3, max = 10)
+    @NotBlank
     private String name;
 
-    @Column(unique = true, nullable = false)
-    @Size(min = 7)
+    @NotBlank
+    @Column(unique = true)
     private String dna;
 
-    @NotEmpty(message = "It can't be without content")
+    @NotBlank
     private String address;
 
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @NotBlank(message = "It must have a content")
-    @Email(message = "The value is required", regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+@.[a-zA-Z]{2,}$")
+    @NotBlank
+    @Email
+    @Column(unique = true)
     private String email;
 
     public Long getId(){
