@@ -37,4 +37,8 @@ public class UserDaoImpl {
                 .setParameter("username", username)
                 .getSingleResult();
     }
+
+    public void delete(User user){
+        this.userDao.delete(user);
+    }
 }

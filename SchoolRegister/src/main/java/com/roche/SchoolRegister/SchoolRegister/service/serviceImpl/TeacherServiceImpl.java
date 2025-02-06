@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TeacherServiceImpl implements ITeacherService {
@@ -35,5 +36,15 @@ public class TeacherServiceImpl implements ITeacherService {
                     .concat(exception.getMessage()));
         }
         return teacherInserted;
+    }
+
+    @Override
+    public void delete(Teacher teacher) {
+        this.teacherDao.delete(teacher);
+    }
+
+    @Override
+    public Optional<Teacher> findById(Long id) {
+        return this.teacherDao.findById(id);
     }
 }

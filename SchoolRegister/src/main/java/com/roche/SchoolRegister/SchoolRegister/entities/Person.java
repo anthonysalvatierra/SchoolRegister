@@ -2,8 +2,17 @@ package com.roche.SchoolRegister.SchoolRegister.entities;
 
 public class Person {
 
+    private Long id;
     private String name;
     private String dna;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -24,7 +33,8 @@ public class Person {
     @Override
     public String toString() {
         return "Person{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", dna='" + dna + '\'' +
                 '}';
     }

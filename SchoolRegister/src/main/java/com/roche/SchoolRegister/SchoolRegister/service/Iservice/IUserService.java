@@ -18,4 +18,6 @@ public interface IUserService {
 
     void constructUser(Person person);
 
+    void delete(User user);
+
 }

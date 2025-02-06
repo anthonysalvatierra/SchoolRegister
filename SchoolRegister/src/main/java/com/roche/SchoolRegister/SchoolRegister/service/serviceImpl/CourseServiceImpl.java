@@ -3,11 +3,13 @@ package com.roche.SchoolRegister.SchoolRegister.service.serviceImpl;
 import com.roche.SchoolRegister.SchoolRegister.constants.MessageConstant;
 import com.roche.SchoolRegister.SchoolRegister.dao.daoImpl.CourseDaoImpl;
 import com.roche.SchoolRegister.SchoolRegister.entities.Course;
+import com.roche.SchoolRegister.SchoolRegister.entities.Teacher;
 import com.roche.SchoolRegister.SchoolRegister.service.Iservice.ICourseService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class CourseServiceImpl implements ICourseService {
@@ -28,5 +30,10 @@ public class CourseServiceImpl implements ICourseService {
                     .concat(exception.getMessage()));
         }
         return courseInserted;
+    }
+
+    @Override
+    public Course findByTeacher(Teacher teacher) {
+        return  this.courseDao.findByTeacher(teacher);
     }
 }

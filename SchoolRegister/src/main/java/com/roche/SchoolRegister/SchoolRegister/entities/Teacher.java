@@ -35,6 +35,11 @@ public class Teacher extends Person {
         return this.id;
     }
 
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setName(String name){
         this.name = name;
     }

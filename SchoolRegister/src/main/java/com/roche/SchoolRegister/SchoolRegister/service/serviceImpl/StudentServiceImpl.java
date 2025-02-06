@@ -4,10 +4,14 @@ import com.roche.SchoolRegister.SchoolRegister.constants.MessageConstant;
 import com.roche.SchoolRegister.SchoolRegister.dao.daoImpl.StudentDaoImpl;
 import com.roche.SchoolRegister.SchoolRegister.entities.Student;
 import com.roche.SchoolRegister.SchoolRegister.service.Iservice.IStudentService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements IStudentService {
@@ -29,5 +33,30 @@ public class StudentServiceImpl implements IStudentService {
         }
 
         return studentInserted;
+    }
+
+    @Override
+    public List<Student> findAll() {
+        return this.studentDao.findAll();
+    }
+
+    @Override
+    public void delete(Student student) {
+        this.studentDao.delete(student);
+    }
+
+    @Override
+    public Optional<Student> findById(Long id) {
+        return this.studentDao.findById(id);
+    }
+
+    @Override
+    public Student findByDna(String dna) {
+        return this.studentDao.findByDna(dna);
+    }
+
+    @Override
+    public List<Student> findByQuery(HttpServletRequest request) {
+        return this.studentDao.findByQuery(request);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class CareerDaoImpl {
@@ -19,6 +20,14 @@ public class CareerDaoImpl {
 
     public Career save(Career career){
         return this.careerDao.save(career);
+    }
+
+    public void delete(Career career){
+        this.careerDao.delete(career);
+    }
+
+    public Optional<Career> findById(Long id){
+        return this.careerDao.findById(id);
     }
 
 }

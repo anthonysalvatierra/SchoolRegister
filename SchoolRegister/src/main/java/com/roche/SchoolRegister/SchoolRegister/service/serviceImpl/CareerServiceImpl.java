@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -36,5 +37,15 @@ public class CareerServiceImpl implements ICareerService {
                     .concat(exception.getMessage()));
         }
         return careerInserted;
+    }
+
+    @Override
+    public void delete(Career career) {
+        this.careerDao.delete(career);
+    }
+
+    @Override
+    public Optional<Career> findById(Long id) {
+        return this.careerDao.findById(id);
     }
 }

@@ -56,10 +56,10 @@
                         </select>
                         <small class="fs-6 text-danger" th:if="${#fields.hasErrors('status')}" th:errors="*{status}" ></small>
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
                         <button type="submit" class="btn btn-primary" th:text="#{form_add}"></button>
                     </div>
-                    <div class="col-1">
+                    <div class="col-2">
                         <button type="reset" class="btn btn-danger" th:text="#{form_reset}"></button>
                     </div>
                 </form>

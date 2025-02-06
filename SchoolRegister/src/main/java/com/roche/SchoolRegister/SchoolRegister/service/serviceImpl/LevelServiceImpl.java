@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LevelServiceImpl implements ILevelService {
@@ -17,5 +18,10 @@ public class LevelServiceImpl implements ILevelService {
     @Override
     public List<Level> findAll() {
         return this.levelDao.findAll();
+    }
+
+    @Override
+    public Optional<Level> findById(Long id) {
+        return this.levelDao.findById(id);
     }
 }

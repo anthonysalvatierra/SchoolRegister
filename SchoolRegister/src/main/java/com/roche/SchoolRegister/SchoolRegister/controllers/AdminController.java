@@ -4,6 +4,8 @@ import com.roche.SchoolRegister.SchoolRegister.constants.MessageConstant;
 import com.roche.SchoolRegister.SchoolRegister.constants.PathConstant;
 import com.roche.SchoolRegister.SchoolRegister.entities.*;
 import com.roche.SchoolRegister.SchoolRegister.service.Iservice.*;
+import com.roche.SchoolRegister.SchoolRegister.service.serviceImpl.FilterServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,10 +14,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -46,6 +49,15 @@ public class AdminController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IDeleteService deleteService;
+
+    @Autowired
+    private IEditService editService;
+
+    @Autowired
+    private FilterServiceImpl filterService;
+
     private final Logger log = LogManager.getLogger(this);
 
     @PostMapping("/saveStudent")
@@ -62,7 +74,6 @@ public class AdminController {
         student = this.studentService.save(student);
         if(student.getId() == null){
             attributes.addFlashAttribute(MessageConstant.ERROR_INSERTION_STUDENT.name().toLowerCase(), MessageConstant.MESSAGE);
-            attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddStudents");
             return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
         }
         log.info("{} {}", MessageConstant.ENTITY_INSERTED.name(), student);
@@ -76,7 +87,7 @@ public class AdminController {
 
     @PostMapping("/saveTeacher")
     public String saveTeacher(@ModelAttribute @Valid Teacher teacher,
-                              BindingResult result, Model model) {
+                              BindingResult result, RedirectAttributes attributes, Model model) {
 
         this.loadableService.loadAttributes(model, teacher);
 
@@ -95,14 +106,14 @@ public class AdminController {
 
         this.userService.constructUser(teacher);
 
-        model.addAttribute(MessageConstant.TEACHER_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
-        model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddTeachers");
-        return PathConstant.ADMIN_DASHBOARD.getPath();
+        attributes.addFlashAttribute(MessageConstant.TEACHER_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
+        attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddTeachers");
+        return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
     }
 
     @PostMapping("/saveCourse")
     public String saveCourse(@ModelAttribute @Valid Course course,
-                              BindingResult result, Model model) {
+                              BindingResult result, RedirectAttributes attributes, Model model) {
 
         this.loadableService.loadAttributes(model, course);
 
@@ -119,14 +130,14 @@ public class AdminController {
         }
         log.info("{} {}", MessageConstant.ENTITY_INSERTED.name(), course);
 
-        model.addAttribute(MessageConstant.COURSE_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
-        model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddCourses");
-        return PathConstant.ADMIN_DASHBOARD.getPath();
+        attributes.addFlashAttribute(MessageConstant.COURSE_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
+        attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddCourses");
+        return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
     }
 
     @PostMapping("/saveAdmin")
     public String saveAdmin(@ModelAttribute @Valid Admin admin,
-                              BindingResult result, Model model) {
+                              BindingResult result, RedirectAttributes attributes, Model model) {
 
         this.loadableService.loadAttributes(model, admin);
 
@@ -145,14 +156,14 @@ public class AdminController {
 
         this.userService.constructUser(admin);
 
-        model.addAttribute(MessageConstant.ADMIN_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
-        model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddAdmins");
-        return PathConstant.ADMIN_DASHBOARD.getPath();
+        attributes.addFlashAttribute(MessageConstant.ADMIN_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
+        attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddAdmins");
+        return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
     }
 
     @PostMapping("/saveCareer")
     public String saveCareer(@ModelAttribute @Valid Career career,
-                            BindingResult result, Model model) {
+                            BindingResult result, RedirectAttributes attributes, Model model) {
 
         this.loadableService.loadAttributes(model, career);
 
@@ -169,9 +180,101 @@ public class AdminController {
         }
         log.info("{} {}", MessageConstant.ENTITY_INSERTED.name(), career);
 
-        model.addAttribute(MessageConstant.CAREER_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
-        model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddCareers");
-        return PathConstant.ADMIN_DASHBOARD.getPath();
+        attributes.addFlashAttribute(MessageConstant.CAREER_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
+        attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddCareers");
+        return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
+    }
+
+    @RequestMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Long id, @RequestParam("filter") String filter,
+                         Model model, RedirectAttributes attributes){
+
+        boolean wasDeleted = this.deleteService.deleteEntity(id, filter);
+
+        model.addAttribute(MessageConstant.ENTITIES.name().toLowerCase(), this.loadableService.loadEntities());
+        this.loadableService.loadData()
+                .forEach(obj -> model.addAttribute(this.loadableService.nameClass(obj.getClass().getName()).toLowerCase(), obj));
+
+        if(!wasDeleted){
+            model.addAttribute(MessageConstant.ERROR_DELETED_ENTITY.name().toLowerCase(), MessageConstant.MESSAGE);
+            model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(filter.split("")[0].toUpperCase()
+                    .concat(filter.substring(1).concat("-"))));
+            return PathConstant.ADMIN_DASHBOARD.getPath();
+        }
+
+        attributes.addFlashAttribute(MessageConstant.DELETED_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
+        attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(filter.split("")[0].toUpperCase()
+                .concat(filter.substring(1).concat("-"))));
+        return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
+    }
+
+    @RequestMapping("/editEntity")
+    public String editEntity(@RequestParam("entity") String entity, HttpServletRequest request,
+                             Model model, RedirectAttributes attributes){
+
+        String id = request.getParameter("id");
+
+        if(id.trim().isEmpty()){
+            log.info(MessageConstant.ID_DOES_NOT_EXIST.name());
+            model.addAttribute(MessageConstant.ERROR_UPDATING_ENTITY.name().toLowerCase(), MessageConstant.MESSAGE);
+            model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
+                    .concat(entity.substring(1).concat("-"))));
+            return PathConstant.ADMIN_DASHBOARD.getPath();
+        }
+
+        String message = this.editService.editEntity(id, entity, request);
+
+        model.addAttribute(MessageConstant.ENTITIES.name().toLowerCase(), this.loadableService.loadEntities());
+        this.loadableService.loadData()
+                .forEach(obj -> model.addAttribute(this.loadableService.nameClass(obj.getClass().getName()).toLowerCase(), obj));
+
+        if(!MessageConstant.ENTITY_UPDATED_SUCCESSFULLY.name().equalsIgnoreCase(message)){
+            log.info(MessageConstant.ERROR_UPDATING_ENTITY.name(), message);
+            model.addAttribute(MessageConstant.ERROR_UPDATING_ENTITY.name().toLowerCase(), MessageConstant.MESSAGE);
+            model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
+                    .concat(entity.substring(1).concat("-"))));
+            return PathConstant.ADMIN_DASHBOARD.getPath();
+        }
+
+        attributes.addFlashAttribute(MessageConstant.UPDATED_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
+        attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
+                .concat(entity.substring(1).concat("-"))));
+
+        return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
+    }
+
+    @RequestMapping("/filterEntity")
+    public String filterEntity(@RequestParam("entity") String entity, HttpServletRequest request,
+                               Model model, RedirectAttributes attributes){
+
+        List entities = new ArrayList<Person>();
+
+        if(entity.equalsIgnoreCase(MessageConstant.STUDENTS.name())){
+            entities =  this.filterService.filterEntity(entity, request);
+        }
+
+        model.addAttribute(MessageConstant.ENTITIES.name().toLowerCase(), this.loadableService.loadEntities());
+        this.loadableService.loadData()
+                .forEach(obj -> model.addAttribute(this.loadableService.nameClass(obj.getClass().getName()).toLowerCase(), obj));
+
+        if(entities.isEmpty()){
+            log.info(MessageConstant.ERROR_FILTERING_ENTITY.name());
+            model.addAttribute(MessageConstant.ERROR_FILTERING_ENTITY.name().toLowerCase(), MessageConstant.MESSAGE);
+            model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
+                    .concat(entity.substring(1).concat("-"))));
+            return PathConstant.ADMIN_DASHBOARD.getPath();
+        }
+
+        if(entities.size() == 1){
+            attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
+                    .concat(entity.substring(1).concat("-"))).concat(((List<Person>) entities).get(0).getId().toString()));
+            return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
+        }
+
+        attributes.addFlashAttribute("entitiesFounded", entities);
+        attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
+                .concat(entity.substring(1).concat("-"))).concat(MessageConstant.FOUNDED.name().toLowerCase()));
+        return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
     }
 
 }

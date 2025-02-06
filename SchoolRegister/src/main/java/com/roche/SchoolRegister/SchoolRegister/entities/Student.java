@@ -40,6 +40,10 @@ public class Student extends Person {
     @JoinColumn(name = "career", referencedColumnName = "id")
     private Career career;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

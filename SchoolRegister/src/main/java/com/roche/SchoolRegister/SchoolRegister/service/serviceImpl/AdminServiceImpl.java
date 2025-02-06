@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AdminServiceImpl implements IAdminService {
 
@@ -28,5 +30,15 @@ public class AdminServiceImpl implements IAdminService {
                     .concat(exception.getMessage()));
         }
         return adminInserted;
+    }
+
+    @Override
+    public void delete(Admin admin) {
+        this.adminDao.delete(admin);
+    }
+
+    @Override
+    public Optional<Admin> findById(Long id) {
+        return this.adminDao.findById(id);
     }
 }

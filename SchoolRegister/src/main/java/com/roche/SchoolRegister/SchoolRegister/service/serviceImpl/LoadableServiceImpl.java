@@ -2,10 +2,7 @@ package com.roche.SchoolRegister.SchoolRegister.service.serviceImpl;
 
 import com.roche.SchoolRegister.SchoolRegister.constants.MessageConstant;
 import com.roche.SchoolRegister.SchoolRegister.entities.*;
-import com.roche.SchoolRegister.SchoolRegister.service.Iservice.ICareerService;
-import com.roche.SchoolRegister.SchoolRegister.service.Iservice.ILevelService;
-import com.roche.SchoolRegister.SchoolRegister.service.Iservice.ILoadableService;
-import com.roche.SchoolRegister.SchoolRegister.service.Iservice.ITeacherService;
+import com.roche.SchoolRegister.SchoolRegister.service.Iservice.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -16,6 +13,9 @@ import java.util.Map;
 
 @Service
 public class LoadableServiceImpl implements ILoadableService {
+
+    @Autowired
+    private IStudentService studentService;
 
     @Autowired
     private ITeacherService teacherService;
@@ -33,7 +33,8 @@ public class LoadableServiceImpl implements ILoadableService {
         return Map.of(
                 MessageConstant.TEACHER.name().toLowerCase(), this.teacherService.findAll(),
                 MessageConstant.CAREER.name().toLowerCase(), this.careerService.findAll(),
-                MessageConstant.LEVEL.name().toLowerCase(), this.levelService.findAll()
+                MessageConstant.LEVEL.name().toLowerCase(), this.levelService.findAll(),
+                MessageConstant.STUDENT.name().toLowerCase(), this.studentService.findAll()
         );
 
     }

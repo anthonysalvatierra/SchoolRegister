@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <div th:fragment="form_student_edit">
+
+                <form th:action="@{/admin/editEntity} + '?entity=students'" method="post" class="row g-3">
+                    <input type="hidden" th:value="${student.id}" th:name="id">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label d-flex" th:text="#{form_name}"></label>
+                        <input type="text" class="form-control" id="name" th:name="name" th:value="${student.name}" required style="text-transform: capitalize;">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dna" class="form-label d-flex" th:text="#{form_dna}"></label>
+                        <input type="text" class="form-control" id="dna" th:name="dna" th:value="${student.dna}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="phone" class="form-label d-flex" th:text="#{form_phone}"></label>
+                        <input type="tel" class="form-control" id="phone" th:name="phoneNumber" th:value="${student.phoneNumber}" required>
+                    </div>
+                    <div class="col-6">
+                        <label for="email" class="form-label d-flex" th:text="#{form_email}"></label>
+                        <input type="email" class="form-control" id="email" th:name="email" th:value="${student.email}" required>
+                    </div>
+                    <div class="col-6">
+                        <label for="career" class="form-label d-flex" th:text="#{form_career}"></label>
+                        <select id="career" class="form-select" aria-label="Career" th:name="career">
+                            <option selected th:value="${student.career.id}" th:text="${student.career.name}"></option>
+                            <option th:each="career: ${entities.get('career')}" th:value="${career.id}"
+                                    th:text="${career.name}"></option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="level" class="form-label d-flex" th:text="#{form_level}"></label>
+                        <select id="level" class="form-select" aria-label="Level" th:name="level">
+                            <option selected th:value="${student.level.id}" th:text="${student.level.number}"></option>
+                            <option th:each="level: ${entities.get('level')}" th:value="${level.id}"
+                                    th:text="${level.number}"></option>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <label for="status" class="form-label d-flex" th:text="#{form_status}"></label>
+                        <select id="status" class="form-select" aria-label="Status" th:name="status" style="text-transform: capitalize;">
+                            <option th:value="${student.status}" selected th:text="${student.status}"></option>
+                            <option th:value="on" th:text="#{form_status_on}"></option>
+                            <option th:value="off" th:text="#{form_status_off}"></option>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label d-flex">...</label>
+                        <button type="submit" class="btn btn-primary w-100" th:text="#{form_edit}"></button>
+                    </div>
+                </form>
+
+            </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

@@ -34,7 +34,6 @@ public class IndexController {
         String role = this.userService.findRoleByUsername(auth.getName());
 
         model.addAttribute(MessageConstant.ENTITIES.name().toLowerCase(), this.loadableService.loadEntities());
-        model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddStudents");
         return role.toLowerCase() + "/dashboard";
     }
 

@@ -4,9 +4,18 @@
         <meta charset="UTF-8">
         <title th:text="#{admin_title}"></title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
         <style>
             .bg-gray{
                 background-color: #E0E0E0;
+            }
+
+            .inactive{
+                background-color: #FFB6B6;
+            }
+
+            .bg-active{
+                background-color: #72f4b2;
             }
         </style>
     </head>
@@ -66,36 +75,58 @@
             </li>
         </ul>
 
-        <!----------------------------------------------- Content Nav Bar and Nav Bar Vertical ------------------------------------------------------------------->
+        <!----------------------------------------------- Content Nav Bar ------------------------------------------------------------------->
 
         <div class="tab-content d-flex align-items-center pt-1" style="min-height:65vh">
             <div class="tab-pane container-fluid active" id="home">
                 <div th:replace="~{layouts/contents/navBarHomeAdmin :: content_admin_home}"></div>
             </div>
 
-            <div class="tab-pane container fade" id="students"></div>
-            <div class="tab-pane container fade" id="teachers"></div>
+            <!----------------------------------------------- Students Section ------------------------------------------------------------------->
+
+            <div class="tab-pane container-fluid fade" id="students">
+                <div th:replace="~{layouts/contents/studentSection :: student_section}"></div>
+            </div>
+
+            <!----------------------------------------------- Teachers Section ------------------------------------------------------------------->
+
+            <div class="tab-pane container-fluid fade" id="teachers">
+                <div th:replace="~{layouts/contents/teacherSection :: teacher_section}"></div>
+            </div>
+
+            <!----------------------------------------------- Users Section ------------------------------------------------------------------->
             <div class="tab-pane container fade" id="users"></div>
             <div class="tab-pane container fade" id="careers"></div>
             <div class="tab-pane container fade" id="admins"></div>
         </div>
 
         <footer th:replace="~{layouts/layouts :: footer}"></footer>
+
+        <!------------------------------------------------- Script Section --------------------------------------------------------->
         <div th:text="${goto}" id="hidden" style="display:none"></div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
 
             document.addEventListener("DOMContentLoaded", function () {
                 const fragment = document.getElementById('hidden').innerText;
-                console.log(fragment);
                 if (fragment.includes("-")) {
                     const sections = fragment.split("-");
                     sections.forEach(section => {
                         const element = document.getElementById(section);
+                        console.log(element);
                         if (element) {
                             element.click();
                         }
                      });
+                }
+            });
+
+            document.addEventListener("DOMContentLoaded", function() {
+                    const alertBoxes = document.querySelectorAll(".flashMessages");
+                if (alertBoxes) {
+                    alertBoxes.forEach(box => {
+                        setTimeout(() => box.remove(), 3000);
+                    });
                 }
             });
         </script>

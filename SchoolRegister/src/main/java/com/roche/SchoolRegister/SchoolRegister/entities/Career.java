@@ -7,7 +7,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "career")
-public class Career {
+public class Career extends Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
