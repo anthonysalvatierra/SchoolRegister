@@ -11,6 +11,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 @Repository
 public class CourseDaoImpl {
 
@@ -26,14 +30,22 @@ public class CourseDaoImpl {
         return this.courseDao.save(course);
     }
 
-    public Course findByTeacher(Teacher teacher){
+    public Optional<Course> findById(Long id){
+        return this.courseDao.findById(id);
+    }
 
-        Course course = null;
+    public List<Course> findAll(){
+        return (List<Course>) this.courseDao.findAll();
+    }
+
+    public List<Course> findByTeacher(Teacher teacher){
+
+        List course = new ArrayList();
 
         try{
-            course = (Course) this.em.createQuery(ICourseDao.findByTeacher)
+            course = this.em.createQuery(ICourseDao.findByTeacher)
                     .setParameter("teacher", teacher)
-                    .getSingleResult();
+                    .getResultList();
         }catch (Exception exception){
             log.info(MessageConstant.ERROR.name().concat(" ").concat(exception.getMessage()));
             return course;
@@ -41,6 +53,10 @@ public class CourseDaoImpl {
 
         log.info(MessageConstant.COURSE.name().concat(" ").concat(course.toString()));
         return course;
+    }
+
+    public List<Course> findCourseWhereTeacherIsNotNull(){
+        return this.em.createQuery(ICourseDao.findCourseWhereTeacherIsNotNull).getResultList();
     }
 
 }

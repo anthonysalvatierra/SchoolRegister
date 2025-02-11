@@ -47,4 +47,14 @@ public class TeacherServiceImpl implements ITeacherService {
     public Optional<Teacher> findById(Long id) {
         return this.teacherDao.findById(id);
     }
+
+    @Override
+    public Teacher findByDna(String dna) {
+        return this.teacherDao.findByDna(dna);
+    }
+
+    @Override
+    public List<Teacher> findByName(String name) {
+        return this.teacherDao.findByName(name);
+    }
 }

@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -81,12 +82,14 @@ public class DeleteServiceImpl implements IDeleteService {
             return wasDeleted;
         }
 
-        Course course = this.courseService.findByTeacher(teacher.get());
+        List<Course> course = this.courseService.findByTeacher(teacher.get());
 
-        if(course != null){
+        if(course != null || !course.isEmpty()){
             log.info(MessageConstant.COURSE.name().concat(" ").concat(course.toString()));
-            course.setTeacher(null);
-            this.courseService.save(course);
+            course.forEach(c -> {
+                c.setTeacher(null);
+                this.courseService.save(c);
+            });
         }
 
         Optional<User> user = this.userService.findByUsername(teacher.get().getDna());

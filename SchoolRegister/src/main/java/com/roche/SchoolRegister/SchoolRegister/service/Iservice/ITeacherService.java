@@ -13,6 +13,10 @@ public interface ITeacherService {
 
     void delete(Teacher teacher);
 
-    public Optional<Teacher> findById(Long id);
+    Optional<Teacher> findById(Long id);
+
+    Teacher findByDna(String dna);
+
+    List<Teacher> findByName(String name);
 
 }

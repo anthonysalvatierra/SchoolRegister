@@ -10,6 +10,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @Service
 public class CourseServiceImpl implements ICourseService {
@@ -33,7 +36,22 @@ public class CourseServiceImpl implements ICourseService {
     }
 
     @Override
-    public Course findByTeacher(Teacher teacher) {
+    public List<Course> findAll() {
+        return this.courseDao.findAll();
+    }
+
+    @Override
+    public Optional<Course> findById(Long id) {
+        return this.courseDao.findById(id);
+    }
+
+    @Override
+    public List<Course> findByTeacher(Teacher teacher) {
         return  this.courseDao.findByTeacher(teacher);
+    }
+
+    @Override
+    public List<Course> findCourseWhereTeacherIsNotNull() {
+        return this.courseDao.findCourseWhereTeacherIsNotNull();
     }
 }

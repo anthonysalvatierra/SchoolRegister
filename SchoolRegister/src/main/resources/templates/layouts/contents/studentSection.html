@@ -70,7 +70,7 @@
               <tr th:class="${student.status == 'on'} ? bg-active : inactive" th:each="student: ${entities.get('student')}">
                 <td class="p-2 text-center bg-light" style="width:50px;">
                   <!------------------------------------------ Button Modal ----------------------------------------------->
-                  <button type="button" th:id="${student.id}" class="btn btn-transparent" data-bs-toggle="modal" th:data-bs-target="'#modal-student' + ${student.id}">
+                  <button type="button" th:id="'students' + ${student.id}" class="btn btn-transparent" data-bs-toggle="modal" th:data-bs-target="'#modal-student' + ${student.id}">
                     <span class="material-symbols-outlined">manage_search</span>
                   </button>
 
@@ -109,14 +109,14 @@
       </div>
 
       <!------------------------------------------ Modal Founded ---------------------------------------------------------------->
-      <button type="button" id="founded" class="btn btn-transparent" data-bs-toggle="modal" data-bs-target="#modal_founded" style="display:none"></button>
+      <button type="button" id="students_founded" class="btn btn-transparent" data-bs-toggle="modal" data-bs-target="#modal_founded_student" style="display:none"></button>
 
-      <div class="modal fade" id="modal_founded" tabindex="-1" aria-labelledby="modalCreateIterator2" aria-hidden="true">
+      <div class="modal fade" id="modal_founded_student" tabindex="-1" aria-labelledby="modalCreateIterator2" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title fs-3" id="modalCreateIterator2" th:text="#{modal_founded}"></h5>
-              <span class="model-title fs-3" th:text="'(' + ${entitiesFounded?.size()} + ')'"></span>
+              <span class="model-title fs-3" th:text="'(' + ${entities_students?.size()} + ')'"></span>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -135,7 +135,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr th:class="${entity.status == 'on'} ? bg-active : inactive" th:each="entity: ${entitiesFounded}">
+                        <tr th:if="${entities_students != null}" th:class="${entity.status == 'on'} ? bg-active : inactive" th:each="entity: ${entities_students}">
                           <td th:text="${entity.name}" style="text-transform: capitalize;"></td>
                           <td th:text="${entity.dna}"></td>
                           <td th:text="${entity.email}"></td>

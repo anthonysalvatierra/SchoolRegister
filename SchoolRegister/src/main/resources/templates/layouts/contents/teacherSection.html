@@ -21,12 +21,18 @@
               <label for="dna" class="form-label" th:text="#{form_dna}"></label>
               <input type="text" class="form-control" id="dna" name="dna">
             </div>
+            <div class="col-12">
+              <label for="course" class="form-label d-flex" th:text="#{form_courses}"></label>
+              <select id="course" class="form-select" aria-label="Course" name="course">
+                <option selected value="" ></option>
+                <option th:each="course: ${entities.get('course')}" th:value="${course.id}"
+                        th:text="${course.name}"></option>
+              </select>
+            </div>
             <div class="col-3">
-              <label for="button" class="form-label">...</label>
               <button type="submit" id="button" class="btn btn-primary w-100" th:text="#{form_filter}"></button>
             </div>
             <div class="col-3">
-              <label for="reset" class="form-label">...</label>
               <button type="reset" id="reset" class="btn btn-danger w-100" th:text="#{form_reset}"></button>
             </div>
           </form>
@@ -46,7 +52,7 @@
               <tr th:each="teacher: ${entities.get('teacher')}">
                 <td class="p-2 text-center bg-light" style="width:50px;">
                   <!------------------------------------------ Button Modal ----------------------------------------------->
-                  <button type="button" th:id="${teacher.id}" class="btn btn-transparent" data-bs-toggle="modal" th:data-bs-target="'#modal-teacher' + ${teacher.id}">
+                  <button type="button" th:id="'teachers' + ${teacher.id}" class="btn btn-transparent" data-bs-toggle="modal" th:data-bs-target="'#modal-teacher' + ${teacher.id}">
                     <span class="material-symbols-outlined">manage_search</span>
                   </button>
 
@@ -85,14 +91,14 @@
       </div>
 
       <!------------------------------------------ Modal Founded ---------------------------------------------------------------->
-      <button type="button" id="founded" class="btn btn-transparent" data-bs-toggle="modal" data-bs-target="#modal_founded" style="display:none"></button>
+      <button type="button" id="teachers_founded" class="btn btn-transparent" data-bs-toggle="modal" data-bs-target="#modal_founded_teacher" style="display:none"></button>
 
-      <div class="modal fade" id="modal_founded" tabindex="-1" aria-labelledby="modalCreateIterator4" aria-hidden="true">
+      <div class="modal fade" id="modal_founded_teacher" tabindex="-1" aria-labelledby="modalCreateIterator4" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title fs-3" id="modalCreateIterator4" th:text="#{modal_founded}"></h5>
-              <span class="model-title fs-3" th:text="'(' + ${entitiesFounded?.size()} + ')'"></span>
+              <span class="model-title fs-3" th:text="'(' + ${entities_teachers?.size()} + ')'"></span>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -106,18 +112,16 @@
                           <th th:text="#{form_dna}"></th>
                           <th th:text="#{form_email}"></th>
                           <th th:text="#{form_phone}"></th>
-                          <th th:text="#{form_level}"></th>
-                          <th th:text="#{form_career}"></th>
+                          <th th:text="#{form_address}"></th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr th:class="${entity.status == 'on'} ? bg-active : inactive" th:each="entity: ${entitiesFounded}">
+                        <tr th:if="${entities_teachers != null}" th:each="entity: ${entities_teachers}">
                           <td th:text="${entity.name}" style="text-transform: capitalize;"></td>
                           <td th:text="${entity.dna}"></td>
                           <td th:text="${entity.email}"></td>
                           <td th:text="${entity.phoneNumber}"></td>
-                          <td class="text-center" th:text="${entity.level.number}"></td>
-                          <td th:text="${entity.career.name}"></td>
+                          <td th:text="${entity.address}"></td>
                         </tr>
                       </tbody>
                     </table>

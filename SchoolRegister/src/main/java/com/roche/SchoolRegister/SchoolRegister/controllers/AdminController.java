@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -247,11 +248,7 @@ public class AdminController {
     public String filterEntity(@RequestParam("entity") String entity, HttpServletRequest request,
                                Model model, RedirectAttributes attributes){
 
-        List entities = new ArrayList<Person>();
-
-        if(entity.equalsIgnoreCase(MessageConstant.STUDENTS.name())){
-            entities =  this.filterService.filterEntity(entity, request);
-        }
+        List entities = this.filterService.filterEntity(entity, request);
 
         model.addAttribute(MessageConstant.ENTITIES.name().toLowerCase(), this.loadableService.loadEntities());
         this.loadableService.loadData()
@@ -267,14 +264,46 @@ public class AdminController {
 
         if(entities.size() == 1){
             attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
-                    .concat(entity.substring(1).concat("-"))).concat(((List<Person>) entities).get(0).getId().toString()));
+                    .concat(entity.substring(1).concat("-"))).concat(entity).concat(((List<Person>) entities).get(0).getId().toString()));
             return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
         }
 
-        attributes.addFlashAttribute("entitiesFounded", entities);
+        attributes.addFlashAttribute("entities_".concat(entity), entities);
         attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
-                .concat(entity.substring(1).concat("-"))).concat(MessageConstant.FOUNDED.name().toLowerCase()));
+                .concat(entity.substring(1).concat("-")))
+                        .concat(entity).concat("_")
+                .concat(MessageConstant.FOUNDED.name().toLowerCase()));
         return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
+    }
+
+    @GetMapping("/deleteCourse/{idCourse}")
+    public String deleteCourseFromTeacher(@PathVariable("idCourse") Long idCourse, Model model, RedirectAttributes attributes){
+
+        Optional<Course> course = Optional.empty();
+
+        try{
+
+            course = this.courseService.findById(idCourse);
+
+            if(course.isPresent()){
+                course.get().setTeacher(null);
+                this.courseService.save(course.get());
+            }
+
+        }catch (Exception exception){
+            model.addAttribute(MessageConstant.ENTITIES.name().toLowerCase(), this.loadableService.loadEntities());
+            this.loadableService.loadData()
+                    .forEach(obj -> model.addAttribute(this.loadableService.nameClass(obj.getClass().getName()).toLowerCase(), obj));
+            log.info(MessageConstant.COURSE.name().concat(" ").concat(course.get().toString()).concat(" ").concat(exception.getMessage()));
+            model.addAttribute(MessageConstant.ERROR_FILTERING_ENTITY.name().toLowerCase(), MessageConstant.MESSAGE);
+            model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "toTeachers-");
+            return PathConstant.ADMIN_DASHBOARD.getPath();
+        }
+
+        attributes.addFlashAttribute(MessageConstant.UPDATED_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
+        attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "toTeachers-");
+        return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
+
     }
 
 }

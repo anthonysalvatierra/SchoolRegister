@@ -7,7 +7,9 @@ public enum MessageConstant {
     STUDENT,
     STUDENTS,
     TEACHER,
+    TEACHERS,
     COURSE,
+    COURSE_WITH_TEACHER,
     CAREER,
     ADMIN,
     LEVEL,
@@ -39,7 +41,8 @@ public enum MessageConstant {
     ERROR_FILTERING_ENTITY,
     EMPTY_PARAMS,
     FOUNDED,
-    ERROR
+    ERROR,
+    OVER_AMOUNT
 
 
 }

@@ -29,8 +29,25 @@
                         <label for="email" class="form-label d-flex" th:text="#{form_email}"></label>
                         <input type="email" class="form-control" id="email" th:name="email" th:value="${teacher.email}" required>
                     </div>
-                    <div class="col-3">
-                        <label class="form-label d-flex">...</label>
+                    <div class="col-6">
+                        <label for="course" class="form-label d-flex" th:text="#{form_courses}"></label>
+                        <select id="course" class="form-select" aria-label="Course" name="course">
+                            <option selected value="" ></option>
+                            <option th:each="course: ${entities.get('course')}" th:value="${course.id}"
+                                    th:text="${course.name}"></option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="assignment" class="form-label d-flex" th:text="#{form_courses_assignment}"></label>
+                    </div>
+                    <div class="col-6">
+                        <ul id="assignment" >
+                            <li th:each="course: ${entities.get('course_with_teacher')}" th:if="${course.teacher.equals(teacher)}">
+                                <a th:text="${course.name}" th:href="@{/admin/deleteCourse/} + ${course.id}"></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-12">
                         <button type="submit" class="btn btn-primary w-100" th:text="#{form_edit}"></button>
                     </div>
                 </form>
