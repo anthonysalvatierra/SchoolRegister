@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <div th:fragment="form_admin_edit">
+
+                <form th:action="@{/admin/editEntity} + '?entity=admins'" method="post" class="row g-3">
+                    <input type="hidden" th:value="${admin.id}" th:name="id">
+                    <div class="col-md-6">
+                        <label for="name" class="form-label d-flex" th:text="#{form_name}"></label>
+                        <input type="text" class="form-control" id="name" th:name="name" th:value="${admin.name}" required style="text-transform: capitalize;">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="dna" class="form-label d-flex" th:text="#{form_dna}"></label>
+                        <input type="text" class="form-control" id="dna" th:name="dna" th:value="${admin.dna}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="address" class="form-label d-flex" th:text="#{form_address}"></label>
+                        <input type="text" class="form-control" id="address" th:name="address" th:value="${admin.address}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="phone" class="form-label d-flex" th:text="#{form_phone}"></label>
+                        <input type="tel" class="form-control" id="phone" th:name="phone" th:value="${admin.phone}" required>
+                    </div>
+                    <div class="col-6">
+                        <label for="email" class="form-label d-flex" th:text="#{form_email}"></label>
+                        <input type="email" class="form-control" id="email" th:name="email" th:value="${admin.email}" required>
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label d-flex">...</label>
+                        <button type="submit" class="btn btn-primary w-100" th:text="#{form_edit}"></button>
+                    </div>
+                </form>
+
+            </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>

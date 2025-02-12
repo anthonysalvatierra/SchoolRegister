@@ -33,6 +33,9 @@ public class EditServiceImpl implements IEditService {
     @Autowired
     private ICourseService courseService;
 
+    @Autowired
+    private IAdminService adminService;
+
     @Override
     public String editEntity(String id, String entity, HttpServletRequest request) {
 
@@ -112,7 +115,23 @@ public class EditServiceImpl implements IEditService {
 
     @Override
     public String updateAdmin(String id, HttpServletRequest request) {
-        return "";
+
+        Optional<Admin> admin = this.adminService.findById(Long.parseLong(request.getParameter("id")));
+
+        if(admin.isEmpty()){
+            log.info(MessageConstant.ERROR_UPDATING_ENTITY.name().concat(" ").concat(id));
+        }
+
+        admin.get().setName(request.getParameter("name"));
+        admin.get().setDna(request.getParameter("dna"));
+        admin.get().setAddress(request.getParameter("address"));
+        admin.get().setPhone(request.getParameter("phone"));
+        admin.get().setEmail(request.getParameter("email"));
+
+        Admin adminUpdated = this.adminService.save(admin.get());
+
+        log.info(MessageConstant.ENTITY_UPDATED_SUCCESSFULLY.name().concat(" ").concat(adminUpdated.toString()));
+        return MessageConstant.ENTITY_UPDATED_SUCCESSFULLY.name().toLowerCase();
     }
 
     public String defaultService(){

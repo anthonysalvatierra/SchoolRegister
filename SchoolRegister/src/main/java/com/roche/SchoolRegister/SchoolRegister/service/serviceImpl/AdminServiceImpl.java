@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -18,6 +19,11 @@ public class AdminServiceImpl implements IAdminService {
 
     @Autowired
     private AdminDaoImpl adminDao;
+
+    @Override
+    public List<Admin> findAll() {
+        return this.adminDao.findAll();
+    }
 
     @Override
     public Admin save(Admin admin) {

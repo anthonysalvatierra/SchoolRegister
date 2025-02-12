@@ -36,13 +36,13 @@
                 <a class="nav-link fs-3" data-bs-toggle="pill" id="toTeachers" href="#teachers" th:text="#{admin_nav_teachers}"></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link fs-3" data-bs-toggle="pill" id="toAdmins" href="#admins" th:text="#{admin_nav_admins}"></a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link fs-3" data-bs-toggle="pill" id="toUsers" href="#users" th:text="#{admin_nav_users}"></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link fs-3" data-bs-toggle="pill" id="toCareers" href="#careers" th:text="#{admin_nav_careers}"></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link fs-3" data-bs-toggle="pill" id="toAdmins" href="#admins" th:text="#{admin_nav_admins}"></a>
             </li>
             <li class="nav-item">
                 <div class="dropdown">
@@ -94,10 +94,15 @@
                 <div th:replace="~{layouts/contents/teacherSection :: teacher_section}"></div>
             </div>
 
+            <!--------------------------------------------------- Admins Section -------------------------------------------------------------->
+
+            <div class="tab-pane container-fluid fade" id="admins">
+                <div th:replace="~{layouts/contents/adminSection :: admin_section}"></div>
+            </div>
+
             <!----------------------------------------------- Users Section ------------------------------------------------------------------->
             <div class="tab-pane container fade" id="users"></div>
             <div class="tab-pane container fade" id="careers"></div>
-            <div class="tab-pane container fade" id="admins"></div>
         </div>
 
         <footer th:replace="~{layouts/layouts :: footer}"></footer>

@@ -29,6 +29,9 @@ public class LoadableServiceImpl implements ILoadableService {
     @Autowired
     private ICourseService courseService;
 
+    @Autowired
+    private IAdminService adminService;
+
 
     @Override
     public Map loadEntities() {
@@ -38,6 +41,7 @@ public class LoadableServiceImpl implements ILoadableService {
                 MessageConstant.CAREER.name().toLowerCase(), this.careerService.findAll(),
                 MessageConstant.LEVEL.name().toLowerCase(), this.levelService.findAll(),
                 MessageConstant.STUDENT.name().toLowerCase(), this.studentService.findAll(),
+                MessageConstant.ADMIN.name().toLowerCase(), this.adminService.findAll(),
                 MessageConstant.COURSE.name().toLowerCase(), this.courseService.findAll(),
                 MessageConstant.COURSE_WITH_TEACHER.name().toLowerCase(), this.courseService.findCourseWhereTeacherIsNotNull()
         );
