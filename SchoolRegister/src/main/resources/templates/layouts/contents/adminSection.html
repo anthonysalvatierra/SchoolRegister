@@ -11,23 +11,15 @@
         <div class="col-4 d-flex justify-content-center align-items-center">
           <form th:action="@{/admin/filterEntity} + '?entity=admins'" method="post" class="rounded shadow row g-3 p-1 bg-light" style="min-height:50vh">
             <h1 class="fs-5 text-dark text-center" th:text="#{form_filter}"></h1>
-            <small class="text-center text-danger fs-6" th:text="#{error_filter}" th:if="${error_filtering_entity != null}"></small>
+            <small class="text-center text-danger fs-6 flashMessages" th:text="#{error_filter}" th:if="${error_filtering_entity_admins != null}"></small>
             <hr>
-            <div class="col-md-6">
+            <div class="col-md-12">
               <label for="name" class="form-label" th:text="#{form_name}"></label>
               <input type="text" class="form-control" id="name" name="name">
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
               <label for="dna" class="form-label" th:text="#{form_dna}"></label>
               <input type="text" class="form-control" id="dna" name="dna">
-            </div>
-            <div class="col-12">
-              <label for="course" class="form-label d-flex" th:text="#{form_courses}"></label>
-              <select id="course" class="form-select" aria-label="Course" name="course">
-                <option selected value="" ></option>
-                <option th:each="course: ${entities.get('course')}" th:value="${course.id}"
-                        th:text="${course.name}"></option>
-              </select>
             </div>
             <div class="col-3">
               <button type="submit" id="button" class="btn btn-primary w-100" th:text="#{form_filter}"></button>
@@ -42,11 +34,11 @@
           <div class="overflow-auto w-100" style="max-height:60vh">
             <table class="table table-hover bg-light rounded shadow">
               <div class="d-flex justify-content-center align-items-center p-2 flashMessages"
-                   th:if="${deleted_success != null || error_deleted_entity != null || updated_success != null || error_updating_entity != null}">
-                <small class="text-success fs-5" th:text="#{success_deleted}" th:if="${deleted_success != null}"></small>
-                <small class="text-success fs-5" th:text="#{success_updated}" th:if="${updated_success != null}"></small>
-                <small class="text-danger fs-5" th:text="#{error_deleted}" th:if="${error_deleted_entity != null}"></small>
-                <small class="text-danger fs-5" th:text="#{error_updated}" th:if="${error_updating_entity != null}"></small>
+                   th:if="${deleted_success_admins != null || error_deleted_entity_admins != null || updated_success_admins != null || error_updating_entity_admins != null}">
+                <small class="text-success fs-5" th:text="#{success_deleted}" th:if="${deleted_success_admins != null}"></small>
+                <small class="text-success fs-5" th:text="#{success_updated}" th:if="${updated_success_admins != null}"></small>
+                <small class="text-danger fs-5" th:text="#{error_deleted}" th:if="${error_deleted_entity_admins != null}"></small>
+                <small class="text-danger fs-5" th:text="#{error_updated}" th:if="${error_updating_entity_admins != null}"></small>
               </div>
               <tbody>
               <tr th:each="admin: ${entities.get('admin')}">
@@ -91,14 +83,14 @@
       </div>
 
       <!------------------------------------------ Modal Founded ---------------------------------------------------------------->
-      <button type="button" id="teachers_founded" class="btn btn-transparent" data-bs-toggle="modal" data-bs-target="#modal_founded_teacher" style="display:none"></button>
+      <button type="button" id="admins_founded" class="btn btn-transparent" data-bs-toggle="modal" data-bs-target="#modal_founded_admin" style="display:none"></button>
 
-      <div class="modal fade" id="modal_founded_teacher" tabindex="-1" aria-labelledby="modalCreateIterator4" aria-hidden="true">
+      <div class="modal fade" id="modal_founded_admin" tabindex="-1" aria-labelledby="modalCreateIterator4" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title fs-3" id="modalCreateIterator4" th:text="#{modal_founded}"></h5>
-              <span class="model-title fs-3" th:text="'(' + ${entities_teachers?.size()} + ')'"></span>
+              <span class="model-title fs-3" th:text="'(' + ${entities_admins?.size()} + ')'"></span>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -116,11 +108,11 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr th:if="${entities_teachers != null}" th:each="entity: ${entities_teachers}">
+                        <tr th:if="${entities_admins != null}" th:each="entity: ${entities_admins}">
                           <td th:text="${entity.name}" style="text-transform: capitalize;"></td>
                           <td th:text="${entity.dna}"></td>
                           <td th:text="${entity.email}"></td>
-                          <td th:text="${entity.phoneNumber}"></td>
+                          <td th:text="${entity.phone}"></td>
                           <td th:text="${entity.address}"></td>
                         </tr>
                       </tbody>

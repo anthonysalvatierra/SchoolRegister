@@ -101,7 +101,11 @@
             </div>
 
             <!----------------------------------------------- Users Section ------------------------------------------------------------------->
-            <div class="tab-pane container fade" id="users"></div>
+            <div class="tab-pane container-fluid fade" id="users">
+                <div th:replace="~{layouts/contents/userSection :: user_section}"></div>
+            </div>
+
+            <!----------------------------------------------- Careers Section ------------------------------------------------------------------->
             <div class="tab-pane container fade" id="careers"></div>
         </div>
 

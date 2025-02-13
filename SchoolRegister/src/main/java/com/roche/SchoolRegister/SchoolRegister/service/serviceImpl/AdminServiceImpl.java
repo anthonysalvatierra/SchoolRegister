@@ -47,4 +47,14 @@ public class AdminServiceImpl implements IAdminService {
     public Optional<Admin> findById(Long id) {
         return this.adminDao.findById(id);
     }
+
+    @Override
+    public Admin findByDna(String dna) {
+        return this.adminDao.findByDna(dna);
+    }
+
+    @Override
+    public List<Admin> findByName(String name) {
+        return this.adminDao.findByName(name);
+    }
 }

@@ -79,7 +79,7 @@ public class AdminController {
         }
         log.info("{} {}", MessageConstant.ENTITY_INSERTED.name(), student);
 
-        this.userService.constructUser(student);
+        this.loadableService.constructUser(student);
 
         attributes.addFlashAttribute(MessageConstant.STUDENT_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
         attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddStudents");
@@ -105,7 +105,7 @@ public class AdminController {
         }
         log.info("{} {}", MessageConstant.ENTITY_INSERTED.name(), teacher);
 
-        this.userService.constructUser(teacher);
+        this.loadableService.constructUser(teacher);
 
         attributes.addFlashAttribute(MessageConstant.TEACHER_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
         attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddTeachers");
@@ -155,7 +155,7 @@ public class AdminController {
         }
         log.info("{} {}", MessageConstant.ENTITY_INSERTED.name(), admin);
 
-        this.userService.constructUser(admin);
+        this.loadableService.constructUser(admin);
 
         attributes.addFlashAttribute(MessageConstant.ADMIN_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
         attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "toHome-toAddAdmins");
@@ -197,13 +197,13 @@ public class AdminController {
                 .forEach(obj -> model.addAttribute(this.loadableService.nameClass(obj.getClass().getName()).toLowerCase(), obj));
 
         if(!wasDeleted){
-            model.addAttribute(MessageConstant.ERROR_DELETED_ENTITY.name().toLowerCase(), MessageConstant.MESSAGE);
+            model.addAttribute(MessageConstant.ERROR_DELETED_ENTITY.name().concat("_".concat(filter)).toLowerCase(), MessageConstant.MESSAGE);
             model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(filter.split("")[0].toUpperCase()
                     .concat(filter.substring(1).concat("-"))));
             return PathConstant.ADMIN_DASHBOARD.getPath();
         }
 
-        attributes.addFlashAttribute(MessageConstant.DELETED_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
+        attributes.addFlashAttribute(MessageConstant.DELETED_SUCCESS.name().concat("_".concat(filter)).toLowerCase(), MessageConstant.MESSAGE);
         attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(filter.split("")[0].toUpperCase()
                 .concat(filter.substring(1).concat("-"))));
         return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());
@@ -217,7 +217,7 @@ public class AdminController {
 
         if(id.trim().isEmpty()){
             log.info(MessageConstant.ID_DOES_NOT_EXIST.name());
-            model.addAttribute(MessageConstant.ERROR_UPDATING_ENTITY.name().toLowerCase(), MessageConstant.MESSAGE);
+            model.addAttribute(MessageConstant.ERROR_UPDATING_ENTITY.name().concat("_".concat(entity)).toLowerCase(), MessageConstant.MESSAGE);
             model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
                     .concat(entity.substring(1).concat("-"))));
             return PathConstant.ADMIN_DASHBOARD.getPath();
@@ -231,13 +231,13 @@ public class AdminController {
 
         if(!MessageConstant.ENTITY_UPDATED_SUCCESSFULLY.name().equalsIgnoreCase(message)){
             log.info(MessageConstant.ERROR_UPDATING_ENTITY.name(), message);
-            model.addAttribute(MessageConstant.ERROR_UPDATING_ENTITY.name().toLowerCase(), MessageConstant.MESSAGE);
+            model.addAttribute(MessageConstant.ERROR_UPDATING_ENTITY.name().concat("_".concat(entity)).toLowerCase(), MessageConstant.MESSAGE);
             model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
                     .concat(entity.substring(1).concat("-"))));
             return PathConstant.ADMIN_DASHBOARD.getPath();
         }
 
-        attributes.addFlashAttribute(MessageConstant.UPDATED_SUCCESS.name().toLowerCase(), MessageConstant.MESSAGE);
+        attributes.addFlashAttribute(MessageConstant.UPDATED_SUCCESS.name().concat("_".concat(entity)).toLowerCase(), MessageConstant.MESSAGE);
         attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
                 .concat(entity.substring(1).concat("-"))));
 
@@ -256,13 +256,13 @@ public class AdminController {
 
         if(entities.isEmpty()){
             log.info(MessageConstant.ERROR_FILTERING_ENTITY.name());
-            model.addAttribute(MessageConstant.ERROR_FILTERING_ENTITY.name().toLowerCase(), MessageConstant.MESSAGE);
+            model.addAttribute(MessageConstant.ERROR_FILTERING_ENTITY.name().concat("_".concat(entity)).toLowerCase(), MessageConstant.MESSAGE);
             model.addAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
                     .concat(entity.substring(1).concat("-"))));
             return PathConstant.ADMIN_DASHBOARD.getPath();
         }
 
-        if(entities.size() == 1){
+        if(entities.size() == 1  && !entity.equalsIgnoreCase(MessageConstant.USERS.name())){
             attributes.addFlashAttribute(MessageConstant.GOTO.name().toLowerCase(), "to".concat(entity.split("")[0].toUpperCase()
                     .concat(entity.substring(1).concat("-"))).concat(entity).concat(((List<Person>) entities).get(0).getId().toString()));
             return "redirect:".concat(PathConstant.INDEX_DASHBOARD_REDIRECT.getPath());

@@ -13,6 +13,10 @@ public interface IAdminService {
 
     void delete(Admin admin);
 
-    public Optional<Admin> findById(Long id);
+    Optional<Admin> findById(Long id);
+
+    Admin findByDna(String dna);
+
+    List<Admin> findByName(String name);
 
 }

@@ -17,6 +17,8 @@ public interface IFilterEntity {
 
     List<Career> filterCareer(HttpServletRequest request);
 
+    List<User> filterUser(HttpServletRequest request);
+
     List<Person> defaultValue(String entity);
 
 

@@ -3,6 +3,8 @@ package com.roche.SchoolRegister.SchoolRegister.constants;
 public enum MessageConstant {
 
     MESSAGE,
+    USER,
+    USERS,
     GOTO,
     STUDENT,
     STUDENTS,
@@ -38,6 +40,7 @@ public enum MessageConstant {
     ENTITY_UPDATED_SUCCESSFULLY,
     ID_DOES_NOT_EXIST,
     DNA_MAY_NOT_EXIST,
+    USERNAME_MAY_NOT_EXIST,
     ERROR_FILTERING_ENTITY,
     EMPTY_PARAMS,
     FOUNDED,

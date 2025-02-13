@@ -1,7 +1,7 @@
 package com.roche.SchoolRegister.SchoolRegister.service.Iservice;
 
-import com.roche.SchoolRegister.SchoolRegister.entities.Person;
 import com.roche.SchoolRegister.SchoolRegister.entities.User;
+import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +16,8 @@ public interface IUserService {
 
     String findRoleByUsername(String username);
 
-    void constructUser(Person person);
-
     void delete(User user);
+
+    List<User> findByQuery(HttpServletRequest request);
 
 }

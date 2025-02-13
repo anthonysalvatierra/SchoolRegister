@@ -3,7 +3,10 @@ package com.roche.SchoolRegister.SchoolRegister.service.serviceImpl;
 import com.roche.SchoolRegister.SchoolRegister.constants.MessageConstant;
 import com.roche.SchoolRegister.SchoolRegister.entities.*;
 import com.roche.SchoolRegister.SchoolRegister.service.Iservice.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -13,6 +16,8 @@ import java.util.Map;
 
 @Service
 public class LoadableServiceImpl implements ILoadableService {
+
+    private final Logger log = LogManager.getLogger(this);
 
     @Autowired
     private IStudentService studentService;
@@ -32,6 +37,12 @@ public class LoadableServiceImpl implements ILoadableService {
     @Autowired
     private IAdminService adminService;
 
+    @Autowired
+    private IUserService userService;
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
 
     @Override
     public Map loadEntities() {
@@ -42,6 +53,7 @@ public class LoadableServiceImpl implements ILoadableService {
                 MessageConstant.LEVEL.name().toLowerCase(), this.levelService.findAll(),
                 MessageConstant.STUDENT.name().toLowerCase(), this.studentService.findAll(),
                 MessageConstant.ADMIN.name().toLowerCase(), this.adminService.findAll(),
+                MessageConstant.USER.name().toLowerCase(), this.userService.findAll(),
                 MessageConstant.COURSE.name().toLowerCase(), this.courseService.findAll(),
                 MessageConstant.COURSE_WITH_TEACHER.name().toLowerCase(), this.courseService.findCourseWhereTeacherIsNotNull()
         );
@@ -79,5 +91,17 @@ public class LoadableServiceImpl implements ILoadableService {
 
             }
         }
+    }
+
+    @Override
+    public void constructUser(Person person) {
+
+            User user = new User(person.getName(), person.getDna(),
+                    this.encoder.encode(person.getDna()), this.nameClass(person.getClass().getName()));
+
+            user = this.userService.save(user);
+            if(user.getId() != null){
+                log.info("{} {}", MessageConstant.ENTITY_INSERTED.name(), user);
+            }
     }
 }

@@ -2,10 +2,7 @@ package com.roche.SchoolRegister.SchoolRegister.service.serviceImpl;
 
 import com.roche.SchoolRegister.SchoolRegister.constants.MessageConstant;
 import com.roche.SchoolRegister.SchoolRegister.entities.*;
-import com.roche.SchoolRegister.SchoolRegister.service.Iservice.ICourseService;
-import com.roche.SchoolRegister.SchoolRegister.service.Iservice.IFilterEntity;
-import com.roche.SchoolRegister.SchoolRegister.service.Iservice.IStudentService;
-import com.roche.SchoolRegister.SchoolRegister.service.Iservice.ITeacherService;
+import com.roche.SchoolRegister.SchoolRegister.service.Iservice.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,6 +25,12 @@ public class FilterServiceImpl implements IFilterEntity {
     @Autowired
     private ICourseService courseService;
 
+    @Autowired
+    private IAdminService adminService;
+
+    @Autowired
+    private IUserService userService;
+
     @Override
     public List filterEntity(String entity, HttpServletRequest request) {
         return switch (entity){
@@ -35,6 +38,7 @@ public class FilterServiceImpl implements IFilterEntity {
             case "teachers" -> this.filterTeacher(request);
             case "admins" -> this.filterAdmin(request);
             case "careers" -> this.filterCareer(request);
+            case "users" -> this.filterUser(request);
             default -> this.defaultValue(entity);
         };
     }
@@ -42,8 +46,7 @@ public class FilterServiceImpl implements IFilterEntity {
     @Override
     public final List<Student> filterStudent(HttpServletRequest request, String entity) {
 
-        Student student = null;
-        String query;
+        Student student;
 
         if(!request.getParameter("dna").isBlank()){
             try{
@@ -77,7 +80,6 @@ public class FilterServiceImpl implements IFilterEntity {
     @Override
     public final List<Teacher> filterTeacher(HttpServletRequest request) {
         Teacher teacher = null;
-        String query;
 
         if(!request.getParameter("dna").isBlank()){
             try{
@@ -117,12 +119,78 @@ public class FilterServiceImpl implements IFilterEntity {
 
     @Override
     public final List<Admin> filterAdmin(HttpServletRequest request) {
-        return null;
+        Admin admin = null;
+
+        if(!request.getParameter("dna").isBlank()){
+
+            try{
+                admin = this.adminService.findByDna(request.getParameter("dna").trim());
+            }catch (Exception exception){
+                log.info(MessageConstant.DNA_MAY_NOT_EXIST.name().concat(" ".concat(exception.getMessage())));
+                return new ArrayList<>();
+            }
+
+        } else if (!request.getParameter("name").isBlank()) {
+
+            List<Admin> results = new ArrayList<>();
+
+            try{
+                results = this.adminService.findByName(request.getParameter("name").trim());
+            }catch (Exception exception) {
+                log.info(MessageConstant.ERROR_FILTERING_ENTITY.name().concat(" ").concat(exception.getMessage()));
+                return results;
+            }
+
+            return results;
+
+        }
+
+        if(admin == null){
+            return new ArrayList<>();
+        }
+
+        return List.of(admin);
     }
 
     @Override
     public final List<Career> filterCareer(HttpServletRequest request) {
         return null;
+    }
+
+    @Override
+    public List<User> filterUser(HttpServletRequest request) {
+
+        Optional<User> user;
+
+        if(!request.getParameter("username").isBlank()){
+
+            try{
+                user = this.userService.findByUsername(request.getParameter("username").trim());
+            }catch (Exception exception){
+                log.info(MessageConstant.USERNAME_MAY_NOT_EXIST.name().concat(" ".concat(exception.getMessage())));
+                return new ArrayList<>();
+            }
+
+        }else{
+
+            List<User> results = new ArrayList<>();
+
+            try{
+                results = this.userService.findByQuery(request);
+            }catch (Exception exception){
+                log.info(MessageConstant.ERROR_FILTERING_ENTITY.name().concat(" ").concat(exception.getMessage()));
+                return results;
+            }
+
+            return results;
+
+        }
+
+        if(user.isEmpty()){
+            return new ArrayList<>();
+        }
+
+        return List.of(user.get());
     }
 
     @Override
